@@ -1,3 +1,4 @@
+#사용법
 git clone --recurse-submodules https://github.com/Kwan-Ho-Kim/Transformator.git
 
 Transformator.py 파일 import해서 

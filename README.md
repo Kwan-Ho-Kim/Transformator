@@ -1,6 +1,6 @@
 # Transformator
 
-실시간 2D 박스 정보를 3D 좌표로 변환해주는 WebSocket 클라이언트 라이브러리입니다.
+실시간 2D 박스 정보를 3D 좌표로 변환해주는 TransformationService와 호환되는 python-API
 
 ---
 

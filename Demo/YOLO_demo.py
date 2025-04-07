@@ -4,14 +4,13 @@ import cv2
 import numpy as np
 import os
 
-sys.path.append("/media/oem/personal_vol/khkim/TrafficSimulationProject/DataLayer/Transformator")
+root_path = os.path.dirname(os.path.dirname(__file__))  # Transformator
+sys.path.append(root_path)
 from Transformator import Transformator
 from Demo.sort.sort import Sort
 
-# uri = "ws://172.30.1.45:5000/gongeoptap"
-transformator = Transformator("172.30.1.45",5000)
+transformator = Transformator("172.30.1.45")
 
-root_path = os.path.dirname(os.path.dirname(__file__))  # Transformator
 video_path = os.path.join(root_path, "Demo/output_20241031_143958.avi")
 weight_path = os.path.join(root_path, "Demo/20240910_v1_500images.pt")
 
@@ -80,7 +79,7 @@ while cap.isOpened():
     if not ret: break
     
     # 이후 필요한 처리 수행
-    print(response)
+    # print(response)
     
 cap.release()
 cv2.destroyAllWindows()

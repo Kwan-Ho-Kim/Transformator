@@ -18,7 +18,7 @@ git clone --recurse-submodules https://github.com/Kwan-Ho-Kim/Transformator.git
 from Transformator import Transformator
 
 # 초기화 (서버 IP, 포트 설정)
-transformator = Transformator("172.30.1.45", 5000)
+transformator = Transformator(<서버의 IP>)
 
 # 예시 데이터
 request = [

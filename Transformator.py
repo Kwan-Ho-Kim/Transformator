@@ -7,7 +7,7 @@ import threading
 import concurrent.futures
 
 class Transformator:
-    def __init__(self, ip : str, port : int, env : str = "gongeoptap"):
+    def __init__(self, ip : str, port : int = 5000, env : str = "gongeoptap"):
         self.uri = f"ws://{ip}:{str(port)}/{env}"
         # self.uri = "ws://172.30.1.45:5000/gongeoptap"
         print(self.uri)

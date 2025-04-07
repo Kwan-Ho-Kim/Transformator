@@ -80,7 +80,7 @@ while cap.isOpened():
     if not ret: break
     
     # 이후 필요한 처리 수행
-    print(len(response))
+    print(response)
     
 cap.release()
 cv2.destroyAllWindows()

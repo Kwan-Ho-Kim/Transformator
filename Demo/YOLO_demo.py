@@ -11,8 +11,8 @@ from Demo.sort.sort import Sort
 
 transformator = Transformator("172.30.1.45")
 
-video_path = os.path.join(root_path, "Demo/output_20241031_143958.avi")
-weight_path = os.path.join(root_path, "Demo/20240910_v1_500images.pt")
+video_path = os.path.join(root_path, "Demo/20240123-053055-055400-0.avi")
+weight_path = os.path.join(root_path, "Demo/yolov9_uav_gongeoptap50.pt")
 
 cap = cv2.VideoCapture(video_path)
 model = ultralytics.YOLO(weight_path)
@@ -56,30 +56,41 @@ def make_tracking(frame, tracking_boxes):
                 'a': 1.0
                 }})
     # print(track_data)
-    frame = cv2.resize(frame,(720,500))
+    # print(frame.shape)
+    # frame = cv2.resize(frame,(int(frame.shape[1]/2),int(frame.shape[0]/2)))
     cv2.imshow("frame", frame)
-    cv2.waitKey(1)
     return track_data
 
+is_pause = False
 while cap.isOpened():
-    ret, frame = cap.read()
-    if not ret: break
+    if not is_pause:
+        ret, frame = cap.read()
+        if not ret: break
+        frame = cv2.resize(frame, (960,540))
 
-    results = model(frame, conf=0.15)
-    bboxes = results[0].boxes.data.tolist()
-    track_boxes = []
-    if len(bboxes)>=1:
-        track_boxes = tracker.update(np.array(bboxes))
+        results = model(frame, conf=0.15)
+        bboxes = results[0].boxes.data.tolist()
+        track_boxes = []
+        if len(bboxes)>=1:
+            track_boxes = tracker.update(np.array(bboxes))
+        
+        datas = make_tracking(frame, track_boxes)
+        
+        # 여기서 3D 변환 요청 (동기 방식)
+        ret, response = transformator.get_3D(datas)
+        
+        if not ret: break
     
-    datas = make_tracking(frame, track_boxes)
-
-    # 여기서 3D 변환 요청 (동기 방식)
-    ret, response = transformator.get_3D(datas)
-    
-    if not ret: break
-    
+    q = cv2.waitKey(1)
+    if q == 27:     # esc
+        break
+    elif q == 13:   # carriage return
+        if is_pause: is_pause = False
+        else: is_pause = True
+        
     # 이후 필요한 처리 수행
     # print(response)
     
+transformator.close()
 cap.release()
 cv2.destroyAllWindows()
